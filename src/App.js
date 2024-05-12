@@ -3,19 +3,47 @@ import './App.css';
 import CreateRepo from './Components/CreateRepo';
 import Card from './Components/Card';
 import Login from './Components/Login';
+import axios from 'axios';
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
   const [showCreateRepo, setShowCreateRepo] = useState(false);
 
+  const [cardsData, setCardsData] = useState([]); // State to store data for cards
+
+  useEffect(() => {
+    // Function to fetch data from endpoint
+    const fetchData = async () => {
+      try {
+        // Make GET request to your endpoint
+        const response = await axios.get('http://localhost:8080/posts');
+        // Extract data from response
+        const data = response.data;
+        // Update state with fetched data
+        setCardsData(data);
+        console.log(response.data)
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    // Call fetchData function when component mounts
+    fetchData();
+
+    // Cleanup function (optional)
+    return () => {
+      // Any cleanup code can go here
+    };
+  }, []); // Empty dependency array ensures the effect runs only once when component mounts
+
+  const handlePostClick = () => {
+    setShowCreateRepo(!showCreateRepo);
+    setShowLogin(false);
+  };
+
   useEffect(() => {
     console.log(showCreateRepo);
   }, [showCreateRepo]);
-
-  const handlePostClick = () => {
-    setShowCreateRepo(!showCreateRepo); 
-    setShowLogin(false); 
-  };
 
   const handleLoginClick = () => {
     setShowLogin(!showLogin); 
@@ -58,11 +86,10 @@ function App() {
       {!showCreateRepo && !showLogin && (
         <>
           <div>
-                <Card />
-                <Card />
-                <Card />
+            {cardsData.map((cardsData, index) => (
+              <Card key={index} likeCounter={cardsData.likesCounter} video={cardsData.videoLink} textPost={cardsData.textPost}/>
+            ))}
           </div>
-
         </>
       )}
     </div>
