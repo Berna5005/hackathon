@@ -1,17 +1,31 @@
 import React from "react";
 import { useState } from "react";
+import axios from "axios";
 
 function Login(){
   const [username, setUsername] = useState('');
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     // Perform validation if needed
     console.log('Username:', username);
-
-    setUsername('');
+    try {
+      // await axios.post('http://localhost:8080/login', { username });
+      sessionStorage.setItem('username', username);
+      await axios.post('http://localhost:8080/login', {username});
+      console.log('Login successful!');
+      // You can redirect the user or perform any other action upon successful login
+    } catch (error) {
+      console.error('Error logging in:', error);
+      // Handle error appropriately
+    }
   };
+
+  const handleChange = (e) => {
+    setUsername(e.target.value);
+  };
+
     return(
         <div style={{ marginTop:'5%', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', width:'100vw'}} className="row justify-content-center">
         <div className="col-md-6">
@@ -26,7 +40,7 @@ function Login(){
                     className="form-control bg-dark text-light"
                     id="username"
                     value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    onChange={handleChange}
                     required
                   />
                 </div>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 function CreateRepo() {
   const [video, setVideo] = useState(null);
@@ -7,7 +8,7 @@ function CreateRepo() {
   const [features, setFeatures] = useState('');
   const [stackUsed, setStackUsed] = useState('');
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     // Perform validation if needed
@@ -19,13 +20,32 @@ function CreateRepo() {
     console.log('Features:', features);
     console.log('Stack Used:', stackUsed);
 
+    
+    // const formData = new FormData();
+    // formData.append('video', video);
+    // formData.append('data', JSON.stringify({"username": "user1", title, description, features, technologies: stackUsed }));
+    // console.log(formData);
+    await axios.post('http://localhost:8080/upload-post', {"username": sessionStorage.getItem("username"),
+                                                      "title": title,
+                                                      "description": description,
+                                                      "features": features,
+                                                      "technologies": stackUsed},);
     // Reset form fields
-    setVideo(null);
-    setTitle('');
-    setDescription('');
-    setFeatures('');
-    setStackUsed('');
+    // setVideo(null);
+    // setTitle('');
+    // setDescription('');
+    // setFeatures('');
+    // setStackUsed('');
   };
+
+  const uploadVideo = async (video) => {
+      setVideo(video)
+      await axios.post('http://localhost:8080/upload-video', {video}, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Accept': 'application/json'
+      }});
+  }
 
   return (
     <div style={{ marginTop:'10%', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', width:'100vw'}} className="row justify-content-center">
@@ -40,7 +60,7 @@ function CreateRepo() {
                     type="file"
                     className="form-control bg-dark text-light"
                     id="video"
-                    onChange={(e) => setVideo(e.target.files[0])}
+                    onChange={(e) => uploadVideo(e.target.files[0])}
                     required
                   />
                 </div>
