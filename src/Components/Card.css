@@ -1,0 +1,45 @@
+.video-container {
+    position: relative;
+    width: 100%;
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.video-container video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 100%;
+    min-height: 100%;
+}
+
+.card-body {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+}
+
+.card-title,
+.card-text {
+    color: white;
+    margin-bottom: 0; /* Remove default margin */
+    text-align: left;
+}
+
+.btn-white {
+    color: white !important; /* Set the color to white */
+}
+
+.btn-no-outline {
+    outline: none !important; /* Remove outline */
+}
+
+.btn-no-outline:click {
+    color: inherit !important; /* Prevent color change on hover */
+}
