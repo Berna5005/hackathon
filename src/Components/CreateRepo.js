@@ -6,7 +6,6 @@ function CreateRepo() {
   const [description, setDescription] = useState('');
   const [features, setFeatures] = useState('');
   const [stackUsed, setStackUsed] = useState('');
-  const [filters, setFilters] = useState('');
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -19,7 +18,6 @@ function CreateRepo() {
     console.log('Description:', description);
     console.log('Features:', features);
     console.log('Stack Used:', stackUsed);
-    console.log('Filters:', filters);
 
     // Reset form fields
     setVideo(null);
@@ -27,11 +25,10 @@ function CreateRepo() {
     setDescription('');
     setFeatures('');
     setStackUsed('');
-    setFilters('');
   };
 
   return (
-    <div style={{ marginTop:'15%', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', width:'100vw'}} className="row justify-content-center">
+    <div style={{ marginTop:'10%', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', width:'100vw'}} className="row justify-content-center">
         <div className="col-md-6">
           <div className="card bg-dark text-light">
             <div className="card-body">
@@ -90,18 +87,7 @@ function CreateRepo() {
                     required
                   />
                 </div>
-                <div className="form-group">
-                  <label htmlFor="filters">Filters:</label>
-                  <input
-                    type="text"
-                    className="form-control bg-dark text-light"
-                    id="filters"
-                    value={filters}
-                    onChange={(e) => setFilters(e.target.value)}
-                    required
-                  />
-                </div>
-                <button type="submit" className="btn btn-primary">Submit</button>
+                <button style={{marginTop:'5%'}} type="submit" className="btn btn-light">Submit</button>
               </form>
             </div>
           </div>
